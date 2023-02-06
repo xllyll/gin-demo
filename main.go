@@ -4,6 +4,7 @@ import (
 	"gin-demo/api"
 	"gin-demo/app"
 	"gin-demo/common"
+	"github.com/spf13/viper"
 	"log"
 )
 
@@ -18,5 +19,10 @@ func Run() {
 	common.InitDB()
 	api.InitUser()
 	api.InitSmsCode()
-	app.R.Run() // 监听并在 0.0.0.0:8080 上启动服务
+	port := viper.GetString("server.port")
+	var portStr = ":8080"
+	if port != "" && len(port) > 0 {
+		portStr = ":" + port
+	}
+	app.R.Run(portStr) // 监听并在 0.0.0.0:8080 上启动服务
 }
